@@ -1,0 +1,5 @@
+{
+    "openrc": "/home/ubuntu/WTSI.lims2-openstack/setup/openrc.sh",
+    "packer_templates": "/home/ubuntu/WTSI.lims2-openstack"
+}
+

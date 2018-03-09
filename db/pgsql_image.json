@@ -1,0 +1,31 @@
+{
+  "builders": [
+    {
+    "flavor": "m1.tiny",
+    "floating_ip_pool": "nova",
+    "image_name": "pgsql",
+    "security_groups": ["default", "ssh-inbound", "web"],
+    "source_image": "",
+    "ssh_username": "ubuntu",
+    "type": "openstack",
+    "use_floating_ip": "true",
+    "networks": [
+        ""
+       ]
+    }
+  ],
+  "provisioners": [
+    {
+    "type": "file",
+    "source": "postgresql-9.1.24.tar",
+    "destination": "/home/ubuntu/postgresql-9.1.24.tar"
+    },
+    {
+      "scripts" : [
+          "/home/ubuntu/WTSI.lims2-openstack/build_pgsql.sh"
+      ],
+      "type": "shell",
+      "execute_command": "bash '{{.Path}}'"
+    }
+  ]
+}

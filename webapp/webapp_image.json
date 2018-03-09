@@ -1,0 +1,129 @@
+{
+  "builders": [
+    {
+    "flavor": "m1.small",
+    "floating_ip_pool": "nova",
+    "image_name": "webapp",
+    "security_groups": ["default", "ssh-inbound", "web"],
+    "source_image": "",
+    "ssh_username": "ubuntu",
+    "type": "openstack",
+    "use_floating_ip": "true",
+    "networks": [
+        ""
+       ]
+    }
+  ],
+  "provisioners": [
+    {
+    "type": "file",
+    "source": "webapp/webapp.json",
+    "destination": "/home/ubuntu/webapp.json"
+    },
+    {
+      "scripts" : [
+          "/home/ubuntu/WTSI.lims2-openstack/webapp/build_webapp.sh"
+      ],
+      "type": "shell",
+      "execute_command": "bash '{{.Path}}'"
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo mkdir -p /opt/t87/global/scripts/"]
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo mkdir -p /opt/t87/global/conf/lims2/"]
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo mkdir -p /opt/t87/global/conf/bashrc.d/"]
+    },
+    {
+    "type": "file",
+    "source": "webapp/bash_utils.sh",
+    "destination": "/home/ubuntu/bash_utils.sh"
+    },
+    {
+    "type": "file",
+    "source": "webapp/eng-seq-builder.devel.yaml",
+    "destination": "/home/ubuntu/eng-seq-builder.devel.yaml"
+    },
+    {
+    "type": "file",
+    "source": "webapp/eng-seq-builder-dev",
+    "destination": "/home/ubuntu/eng-seq-builder-dev"
+    },
+    {
+    "type": "file",
+    "source": "webapp/lims2-common",
+    "destination": "/home/ubuntu/lims2-common"
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo cp /home/ubuntu/bash_utils.sh /opt/t87/global/scripts/bash_utils.sh"]
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo cp /home/ubuntu/lims2-common /opt/t87/global/conf/bashrc.d/lims2-common"]
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo cp /home/ubuntu/eng-seq-builder.devel.yaml /opt/t87/global/conf/eng-seq-builder.devel.yaml"]
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo cp /home/ubuntu/eng-seq-builder-dev /opt/t87/global/conf/bashrc.d/eng-seq-builder-dev"]
+    },
+    {
+    "type": "file",
+    "source": "webapp/redmine_api_lab_tracker.conf",
+    "destination": "/home/ubuntu/redmine_api_lab_tracker.conf"
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo cp /home/ubuntu/redmine_api_lab_tracker.conf /opt/t87/global/conf/redmine_api_lab_tracker.conf"]
+    },
+    {
+    "type": "file",
+    "source": "webapp/webapp.conf",
+    "destination": "/home/ubuntu/webapp.conf"
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo cp /home/ubuntu/webapp.conf /opt/t87/global/conf/webapp.conf"]
+    },
+    {
+    "type": "shell",
+    "inline": ["mkdir -p /home/ubuntu/conf/LIMS2-WebApp/"]
+    },
+    {
+    "type": "file",
+    "source": "webapp/dbconnect.yaml",
+    "destination": "/home/ubuntu/conf/LIMS2-WebApp/dbconnect.yaml"
+    },
+    {
+    "type": "shell",
+    "inline": ["sudo cp /home/ubuntu/conf/LIMS2-WebApp/dbconnect.yaml /opt/t87/global/conf/lims2/dbconnect.yaml"]
+    },
+    {
+    "type": "shell",
+    "inline": ["mkdir -p ~/LIMS2-tmp/"]
+    },
+    {
+    "type": "file",
+    "source": "webapp/lims2_test",
+    "destination": "/home/ubuntu/LIMS2-tmp/lims2_test"
+    },
+    {
+    "type": "file",
+    "source": "webapp/lims2_local",
+    "destination": "/home/ubuntu/LIMS2-tmp/lims2_local"
+    },
+    {
+    "type": "file",
+    "source": "webapp/.lims2_local",
+    "destination": "/home/ubuntu/.lims2_local"
+    }
+  ]
+}
